@@ -1,17 +1,29 @@
-package com.zwb.args.relatvieui;
+package com.zwb.args.relatvieui.activity;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.zwb.args.relatvieui.R;
+import com.zwb.args.relatvieui.annotation.Listener;
+import com.zwb.args.relatvieui.ui.ViewController;
 
 
-public class MainActivity extends ActionBarActivity {
+public class SampleActivity extends ActionBarActivity {
+    @Listener(id = R.id.tv_view, listener = R.id.btn_change, type = "onClick")
+    private TextView textView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ViewController controller = ViewController.getInstance();
+        controller.register(this);
+        controller.changText(R.id.tv_view, "你好");
     }
 
 
