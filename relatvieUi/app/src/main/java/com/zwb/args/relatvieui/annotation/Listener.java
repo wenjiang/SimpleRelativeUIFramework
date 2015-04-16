@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 public @interface Listener {
     int id() default -1;
 
-    int listener() default -1;
+    int[] listener() default -1;
 
-    String type() default "";
+    String[] type() default "";
 }

@@ -8,13 +8,13 @@ import android.widget.TextView;
 
 import com.zwb.args.relatvieui.R;
 import com.zwb.args.relatvieui.annotation.Listener;
+import com.zwb.args.relatvieui.constant.ViewListenerType;
 import com.zwb.args.relatvieui.ui.ViewController;
 
 
 public class SampleActivity extends ActionBarActivity {
-    @Listener(id = R.id.tv_view, listener = R.id.btn_change, type = "onClick")
+    @Listener(id = R.id.tv_view, listener = {R.id.btn_change, R.id.et_input}, type = {ViewListenerType.TYPE_CLICK, ViewListenerType.TYPE_EDIT})
     private TextView textView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,8 @@ public class SampleActivity extends ActionBarActivity {
 
         ViewController controller = ViewController.getInstance();
         controller.register(this);
-        controller.changText(R.id.tv_view, "你好");
+        controller.changText(R.id.tv_view, R.id.btn_change, "你好");
+        controller.changText(R.id.tv_view, R.id.et_input);
     }
 
 
