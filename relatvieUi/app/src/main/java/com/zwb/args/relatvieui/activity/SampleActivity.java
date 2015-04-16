@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.zwb.args.relatvieui.R;
 import com.zwb.args.relatvieui.annotation.Listener;
 import com.zwb.args.relatvieui.constant.ViewListenerType;
+import com.zwb.args.relatvieui.model.Status;
 import com.zwb.args.relatvieui.ui.ViewController;
 
 
@@ -25,6 +26,10 @@ public class SampleActivity extends ActionBarActivity {
         controller.register(this);
         controller.changText(R.id.tv_view, R.id.btn_change, "你好");
         controller.changText(R.id.tv_view, R.id.et_input);
+        Status status = new Status();
+        status.setName("你好");
+        controller.bindData(R.id.tv_view, status, "name");
+        status.setName("我好");
     }
 
 

@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.zwb.args.relatvieui.annotation.Listener;
 import com.zwb.args.relatvieui.constant.ViewListenerType;
+import com.zwb.args.relatvieui.model.BaseModel;
+import com.zwb.args.relatvieui.utils.LogUtil;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -24,9 +26,11 @@ public class ViewController {
     private static ViewController controller;
     private Map<Integer, List<String>> bindMap;
     private Activity activity;
+    private Map<Integer, Object> dataMap;
 
     private ViewController() {
         bindMap = new HashMap<Integer, List<String>>();
+        dataMap = new HashMap<Integer, Object>();
     }
 
     public static ViewController getInstance() {
@@ -129,5 +133,27 @@ public class ViewController {
                 }
             }
         }
+    }
+
+    public void send(BaseModel data) {
+        int id = data.viewId;
+        TextView view = (TextView) activity.findViewById(id);
+        Field field = null;
+        try {
+            field = data.getClass().getDeclaredField(data.fieldName);
+            field.setAccessible(true);
+            view.setText(field.get(data).toString());
+        } catch (NoSuchFieldException e) {
+            LogUtil.e(e.toString());
+        } catch (IllegalAccessException e) {
+            LogUtil.e(e.toString());
+        }
+    }
+
+    public void bindData(int id, BaseModel data, String fieldName) {
+        data.viewId = id;
+        data.fieldName = fieldName;
+        data.isBind = true;
+        dataMap.put(id, data);
     }
 }
