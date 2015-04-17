@@ -13,6 +13,8 @@ import com.zwb.args.relatvieui.model.BaseModel;
 import com.zwb.args.relatvieui.utils.LogUtil;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -248,6 +250,42 @@ public class ViewController {
                         @Override
                         public void onClick(View v) {
                             view.setBackgroundColor(color);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    /**
+     * 改变背景颜色的事件
+     *
+     * @param id         改变背景图片的id
+     * @param listenerId 监听的View的id
+     * @param methodName 方法名
+     */
+    public void change(int id, int listenerId, final String methodName) {
+        List<String> bindList = bindMap.get(id);
+        for (String bindStr : bindList) {
+            String[] bindArr = bindStr.split("_");
+            int bindListenerId = Integer.valueOf(bindArr[0]);
+            if (bindListenerId == listenerId) {
+                String listenerMethod = bindArr[1];
+                View listenerView = activity.findViewById(listenerId);
+                if (listenerMethod.equals(ViewListenerType.TYPE_CLICK)) {
+                    listenerView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                Method method = activity.getClass().getMethod(methodName, null);
+                                method.invoke(activity, null);
+                            } catch (NoSuchMethodException e) {
+                                LogUtil.e(e.toString());
+                            } catch (InvocationTargetException e) {
+                                LogUtil.e(e.toString());
+                            } catch (IllegalAccessException e) {
+                                LogUtil.e(e.toString());
+                            }
                         }
                     });
                 }

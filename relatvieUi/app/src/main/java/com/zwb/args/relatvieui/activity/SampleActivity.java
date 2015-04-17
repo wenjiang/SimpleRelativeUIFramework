@@ -21,9 +21,11 @@ public class SampleActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        llBackground = (LinearLayout) findViewById(R.id.ll_background);
         ViewController controller = ViewController.getInstance();
         controller.register(this);
         controller.changeColor(R.id.ll_background, R.id.btn_change, R.color.green);
+        controller.change(R.id.ll_background, R.id.btn_change, "changeColor");
     }
 
     @Override
@@ -46,5 +48,9 @@ public class SampleActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void changeColor() {
+        llBackground.setBackgroundColor(getResources().getColor(R.color.green));
     }
 }
