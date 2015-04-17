@@ -64,5 +64,13 @@ Android上的Relative(响应式）UI框架
                 
      当Status调用setName来修改name的时候，id为R.id.textview的TextView也会跟着修改。
                 
-            
+     还可以将多个控件绑定到多个成员变量身上：
+     
+               Status status = new Status();
+               status.setName("我好");
+               status.setId("01");
+               controller.bindData(R.id.tv_name, status, "name");
+               controller.bindData(R.id.tv_id, status, "id");
+               status.setName("他好");
+               status.setId("02");
     
