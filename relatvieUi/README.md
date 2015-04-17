@@ -35,6 +35,11 @@ Android上的Relative(响应式）UI框架
       
      这样就会在id为R.id.edittext的EditText输入文本后，id为R.id.textview的TextView的文本就会随着输入而修改。
      
+     当然，修改TextView的控件可能有多个，也可以指定：
+              
+             @Listener(id = R.id.tv_view, listener = {R.id.btn_change, R.id.et_input}, type = {ViewListenerType.TYPE_CLICK, ViewListenerType.TYPE_EDIT})
+             private TextView textView;
+     
      不仅仅监听控件，还可以监听成员变量的变化。
      首先，model类必须继承自BaseModel:
      
