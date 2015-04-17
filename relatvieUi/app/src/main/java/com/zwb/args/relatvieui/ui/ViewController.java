@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.zwb.args.relatvieui.annotation.Listener;
+import com.zwb.args.relatvieui.constant.DataSendType;
 import com.zwb.args.relatvieui.constant.ViewListenerType;
 import com.zwb.args.relatvieui.model.BaseModel;
 import com.zwb.args.relatvieui.utils.LogUtil;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 负责处理监听的注册和回调
@@ -28,11 +30,9 @@ public class ViewController {
     private static ViewController controller;
     private Map<Integer, List<String>> bindMap;
     private Activity activity;
-    private Map<Integer, Object> dataMap;
 
     private ViewController() {
         bindMap = new HashMap<Integer, List<String>>();
-        dataMap = new HashMap<Integer, Object>();
     }
 
     public static ViewController getInstance() {
@@ -169,20 +169,36 @@ public class ViewController {
     /**
      * 发送变更的数据
      *
-     * @param data 变更的数据
+     * @param model 变更的数据
      */
-    public void send(BaseModel data) {
-        int id = data.viewId;
-        TextView view = (TextView) activity.findViewById(id);
-        Field field = null;
-        try {
-            field = data.getClass().getDeclaredField(data.fieldName);
-            field.setAccessible(true);
-            view.setText(field.get(data).toString());
-        } catch (NoSuchFieldException e) {
-            LogUtil.e(e.toString());
-        } catch (IllegalAccessException e) {
-            LogUtil.e(e.toString());
+    public void send(BaseModel model, String dataType) {
+        Map<Integer, String> bindMap = model.bindMap;
+        if (bindMap.isEmpty()) {
+            return;
+        }
+
+        Set<Integer> viewIdSet = bindMap.keySet();
+        for (int id : viewIdSet) {
+            Field field = null;
+            Object data = null;
+            try {
+                field = model.getClass().getDeclaredField(bindMap.get(id));
+                field.setAccessible(true);
+                data = field.get(model);
+            } catch (NoSuchFieldException e) {
+                LogUtil.e(e.toString());
+            } catch (IllegalAccessException e) {
+                LogUtil.e(e.toString());
+            }
+            if (dataType.equals(DataSendType.TYPE_TEXT)) {
+                TextView view = (TextView) activity.findViewById(id);
+                view.setText(data.toString());
+            }
+
+            if (dataType.equals(DataSendType.TYPE_IMAGE)) {
+                View view = activity.findViewById(id);
+                //TODO 根据URL显示图片
+            }
         }
     }
 
@@ -194,10 +210,7 @@ public class ViewController {
      * @param fieldName 绑定的字段
      */
     public void bindData(int id, BaseModel data, String fieldName) {
-        data.viewId = id;
-        data.fieldName = fieldName;
-        data.isBind = true;
-        dataMap.put(id, data);
+        data.bindMap.put(id, fieldName);
     }
 
     /**

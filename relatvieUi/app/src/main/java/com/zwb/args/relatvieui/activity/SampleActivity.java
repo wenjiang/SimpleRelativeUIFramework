@@ -4,28 +4,29 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 
 import com.zwb.args.relatvieui.R;
-import com.zwb.args.relatvieui.annotation.Listener;
-import com.zwb.args.relatvieui.constant.ViewListenerType;
+import com.zwb.args.relatvieui.model.Status;
 import com.zwb.args.relatvieui.ui.ViewController;
 
 
 public class SampleActivity extends ActionBarActivity {
-    @Listener(id = R.id.ll_background, listener = R.id.btn_change, type = ViewListenerType.TYPE_CLICK)
-    private LinearLayout llBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        llBackground = (LinearLayout) findViewById(R.id.ll_background);
         ViewController controller = ViewController.getInstance();
         controller.register(this);
-        controller.changeColor(R.id.ll_background, R.id.btn_change, R.color.green);
-        controller.change(R.id.ll_background, R.id.btn_change, "changeColor");
+
+        Status status = new Status();
+        status.setName("我好");
+        status.setId("01");
+        controller.bindData(R.id.tv_name, status, "name");
+        controller.bindData(R.id.tv_id, status, "id");
+        status.setName("他好");
+        status.setId("02");
     }
 
     @Override
@@ -48,9 +49,5 @@ public class SampleActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void changeColor() {
-        llBackground.setBackgroundColor(getResources().getColor(R.color.green));
     }
 }
