@@ -135,6 +135,11 @@ public class ViewController {
         }
     }
 
+    /**
+     * 发送变更的数据
+     *
+     * @param data 变更的数据
+     */
     public void send(BaseModel data) {
         int id = data.viewId;
         TextView view = (TextView) activity.findViewById(id);
@@ -150,6 +155,13 @@ public class ViewController {
         }
     }
 
+    /**
+     * 绑定数据
+     *
+     * @param id        绑定数据的view的id
+     * @param data      绑定的数据
+     * @param fieldName 绑定的字段
+     */
     public void bindData(int id, BaseModel data, String fieldName) {
         data.viewId = id;
         data.fieldName = fieldName;

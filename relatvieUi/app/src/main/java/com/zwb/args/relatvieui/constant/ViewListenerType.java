@@ -1,6 +1,7 @@
 package com.zwb.args.relatvieui.constant;
 
 /**
+ * View监听的事件类型
  * Created by pc on 2015/4/16.
  */
 public class ViewListenerType {
