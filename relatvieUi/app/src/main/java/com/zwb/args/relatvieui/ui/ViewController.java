@@ -271,9 +271,9 @@ public class ViewController {
     }
 
     /**
-     * 改变背景颜色的事件
+     * 自定义监听方法
      *
-     * @param id         改变背景图片的id
+     * @param id         监听方法的view的id
      * @param listenerId 监听的View的id
      * @param methodName 方法名
      */
