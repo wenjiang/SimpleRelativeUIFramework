@@ -4,18 +4,17 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.zwb.args.relatvieui.R;
 import com.zwb.args.relatvieui.annotation.Listener;
 import com.zwb.args.relatvieui.constant.ViewListenerType;
-import com.zwb.args.relatvieui.model.Status;
 import com.zwb.args.relatvieui.ui.ViewController;
 
 
 public class SampleActivity extends ActionBarActivity {
-    @Listener(id = R.id.tv_view, listener = {R.id.btn_change, R.id.et_input}, type = {ViewListenerType.TYPE_CLICK, ViewListenerType.TYPE_EDIT})
-    private TextView textView;
+    @Listener(id = R.id.ll_background, listener = R.id.btn_change, type = ViewListenerType.TYPE_CLICK)
+    private LinearLayout llBackground;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +23,8 @@ public class SampleActivity extends ActionBarActivity {
 
         ViewController controller = ViewController.getInstance();
         controller.register(this);
-        controller.changText(R.id.tv_view, R.id.btn_change, "你好");
-        controller.changText(R.id.tv_view, R.id.et_input);
-        Status status = new Status();
-        status.setName("你好");
-        controller.bindData(R.id.tv_view, status, "name");
-        status.setName("我好");
+        controller.changeColor(R.id.ll_background, R.id.btn_change, R.color.green);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

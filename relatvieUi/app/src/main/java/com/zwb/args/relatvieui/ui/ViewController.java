@@ -103,6 +103,35 @@ public class ViewController {
      *
      * @param id         会被改变Text的View的id
      * @param listenerId 监听的View的id
+     * @param resourceId 要改变的Text的id
+     */
+    public void changText(int id, int listenerId, int resourceId) {
+        List<String> bindList = bindMap.get(id);
+        final String text = activity.getResources().getString(resourceId);
+        final TextView textView = (TextView) activity.findViewById(id);
+        for (String bindStr : bindList) {
+            String[] bindArr = bindStr.split("_");
+            int bindListenerId = Integer.valueOf(bindArr[0]);
+            if (bindListenerId == listenerId) {
+                String listenerMethod = bindArr[1];
+                View listenerView = activity.findViewById(listenerId);
+                if (listenerMethod.equals(ViewListenerType.TYPE_CLICK)) {
+                    listenerView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            textView.setText(text);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    /**
+     * 改变Text的事件
+     *
+     * @param id         会被改变Text的View的id
+     * @param listenerId 监听的View的id
      */
     public void changText(int id, int listenerId) {
         List<String> bindList = bindMap.get(id);
@@ -167,5 +196,62 @@ public class ViewController {
         data.fieldName = fieldName;
         data.isBind = true;
         dataMap.put(id, data);
+    }
+
+    /**
+     * 改变背景图片的事件
+     *
+     * @param id         改变背景图片的id
+     * @param listenerId 监听的View的id
+     * @param drawableId 图片id
+     */
+    public void changeDrawable(int id, int listenerId, final int drawableId) {
+        List<String> bindList = bindMap.get(id);
+        final View view = activity.findViewById(id);
+        for (String bindStr : bindList) {
+            String[] bindArr = bindStr.split("_");
+            int bindListenerId = Integer.valueOf(bindArr[0]);
+            if (bindListenerId == listenerId) {
+                String listenerMethod = bindArr[1];
+                View listenerView = activity.findViewById(listenerId);
+                if (listenerMethod.equals(ViewListenerType.TYPE_CLICK)) {
+                    listenerView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            view.setBackgroundResource(drawableId);
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    /**
+     * 改变背景颜色的事件
+     *
+     * @param id         改变背景图片的id
+     * @param listenerId 监听的View的id
+     * @param colorId    颜色id
+     */
+    public void changeColor(int id, int listenerId, int colorId) {
+        List<String> bindList = bindMap.get(id);
+        final View view = activity.findViewById(id);
+        final int color = activity.getResources().getColor(colorId);
+        for (String bindStr : bindList) {
+            String[] bindArr = bindStr.split("_");
+            int bindListenerId = Integer.valueOf(bindArr[0]);
+            if (bindListenerId == listenerId) {
+                String listenerMethod = bindArr[1];
+                View listenerView = activity.findViewById(listenerId);
+                if (listenerMethod.equals(ViewListenerType.TYPE_CLICK)) {
+                    listenerView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            view.setBackgroundColor(color);
+                        }
+                    });
+                }
+            }
+        }
     }
 }
