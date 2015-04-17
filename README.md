@@ -48,10 +48,8 @@ Android上的Relative(响应式）UI框架
                     
                     public void setName(String name){
                            this.name = name;
-                           
-                           if (isBind) {
-                                controller.send(this);
-                           }
+
+                           controller.send(this, DataSendType.TYPE_TEXT);
                     }
               }
               
